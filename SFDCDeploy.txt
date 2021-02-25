@@ -1,0 +1,76 @@
+
+
+echo $no_proxy
+pwd 
+ls -al
+
+export http_proxy="http://proxy.ebiz.verizon.com:80"
+export https_proxy="http://proxy.ebiz.verizon.com:80"
+export no_proxy="localhost,127.0.0.1,digitalconnectproxy-dev.ebiz.verizon.com,digitalconnectproxy-qa.ebiz.verizon.com,luxfavlpa001.verizon.com,144-70-113-51.vpc.verizon.com,gitlab.verizon.com,144-70-115-28.vpc.verizon.com,oneselenium.verizon.com,oneselenium.ebiz.verizon.com,onejenkinscloud.vpc.verizon.com"
+
+if [ "x${BranchName}"] || "x${aliasName}"]; then
+	echo "${BranchName} or ${aliasName} is not available or valid. exiting.. "
+	exit 120
+else
+  echo "******************************************************************"
+  echo "Your source branch is --${BranchName}" 
+  echo "Your target sandbox is --${aliasName}" 
+  echo "*******************************************************************"
+fi
+
+
+export FILE_PATH_CONSUMER_KEY=${WORKSPACE}/Ant-GIT/ClientKeys/${aliasName}.txt
+export CONSUMER_KEY=$(cat "$FILE_PATH_CONSUMER_KEY") 
+export JWT_KEY_FILE=${WORKSPACE}/Ant-GIT/AppKey/prod.key
+export DATA_LOAD_PATH=${WORKSPACE}/CX-GIT/vpscx/DataLoads
+export HUB_USERNAME=${username}
+      
+if [ "${aliasName}" == "PrePROD" ]; then
+   sfdx force:auth:sfdxurl:store -f ${FILE_PATH_CONSUMER_KEY} -a ${HUB_USERNAME}
+else
+   sfdx force:auth:jwt:grant --clientid ${CONSUMER_KEY} --jwtkeyfile /apps/opt/CPQ/builds/certificate/prod.key --username ${HUB_USERNAME} --setalias ${aliasName} --instanceurl ${instanceurl}
+fi  
+  
+if [ "x${VlocityOnly}" == "xfalse" ]; then
+  if $RunTests; then
+      echo "Executing tests to run for this deployment...."
+      if $RunSpecifiedTests;then
+        set +e
+        #sfdx force:apex:execute -f ${WORKSPACE}/CX-GIT/vpscx/Release/PreDeployment/ExecuteAnonymous.apex -u ${HUB_USERNAME}
+        #sfdx force:mdapi:deploy -c -d ${WORKSPACE}/CX-GIT/vpscx/Release/PreDeployment/PreDestruct -u ${HUB_USERNAME} -w -1
+        set -e
+        export TEST_CLASS_FILE_PATH=${WORKSPACE}/CX-GIT/vpscx/Release/tests.txt
+        export TEST_CLASSES=$(cat "$TEST_CLASS_FILE_PATH")
+        echo "Test Classes are-----" ${TEST_CLASSES}
+        sfdx force:mdapi:deploy -d ${WORKSPACE}/CX-GIT/vpscx/force-app/main/default -u ${HUB_USERNAME} -l RunSpecifiedTests -r ${TEST_CLASSES} -w -1
+        set +e
+        sfdx force:apex:execute -f ${WORKSPACE}/CX-GIT/vpscx/Release/PostDeployment/ExecuteAnonymous.apex -u ${HUB_USERNAME}
+        sfdx force:mdapi:deploy -d ${WORKSPACE}/CX-GIT/vpscx/Release/PostDeployment/PostDestruct -u ${HUB_USERNAME} -w -1
+        set -e 
+      else
+        set +e
+        sfdx force:apex:execute -f ${WORKSPACE}/CX-GIT/vpscx/Release/PreDeployment/ExecuteAnonymous.apex -u ${HUB_USERNAME}
+        sfdx force:mdapi:deploy -c -d ${WORKSPACE}/CX-GIT/vpscx/Release/PreDeployment/PreDestruct -u ${HUB_USERNAME} -w -1
+        set -e
+        sfdx force:mdapi:deploy -d ${WORKSPACE}/CX-GIT/vpscx/force-app/main/default -u ${HUB_USERNAME} -l RunLocalTests -w -1
+        set +e
+        sfdx force:apex:execute -f ${WORKSPACE}/CX-GIT/vpscx/Release/PostDeployment/ExecuteAnonymous.apex -u ${HUB_USERNAME}
+        sfdx force:mdapi:deploy -d ${WORKSPACE}/CX-GIT/vpscx/Release/PostDeployment/PostDestruct -u ${HUB_USERNAME} -w -1
+      fi
+  else 
+      set +e
+      echo "Starting the deployment with no test run...Not recommended !"
+      sfdx force:apex:execute -f ${WORKSPACE}/CX-GIT/vpscx/Release/PreDeployment/ExecuteAnonymous.apex -u ${HUB_USERNAME}
+      sfdx force:mdapi:deploy -d ${WORKSPACE}/CX-GIT/vpscx/Release/PreDeployment/PreDestruct -u ${HUB_USERNAME} -w -1
+      set -e
+      sfdx force:mdapi:deploy -d ${WORKSPACE}/CX-GIT/vpscx/force-app/main/default -u ${HUB_USERNAME} -l NoTestRun -w -1
+      set +e
+      sfdx force:data:bulk:upsert -s VPS_Widget__c -f  ${DATA_LOAD_PATH}/Widgets/VPS_Widget_Data_Load.csv -i External_Id__c -u ${aliasName} -w 20
+      sfdx force:data:bulk:upsert -s VPS_Product_Scenario_Tile__c -f  ${DATA_LOAD_PATH}/ProductScenarios/VPS_Product_Scenario_Tile__c.csv -i VPS_Tile_Code__c -u ${aliasName} -w 20
+      sfdx force:data:bulk:upsert -s VPS_Product_Scenario__c -f  ${DATA_LOAD_PATH}/ProductScenarios/VPS_Product_Scenario__c.csv -i VPS_Scenario_Code__c -u ${aliasName} -w 20
+      sfdx force:apex:execute -f ${WORKSPACE}/CX-GIT/vpscx/Release/PostDeployment/ExecuteAnonymous.apex -u ${HUB_USERNAME}
+      sfdx force:mdapi:deploy -c -d ${WORKSPACE}/CX-GIT/vpscx/Release/PostDeployment/PostDestruct -u ${HUB_USERNAME}
+  fi
+fi    
+   set -e
+   
