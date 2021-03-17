@@ -1,0 +1,362 @@
+<template>
+    <!--Bredcrumbms start-->
+    <div class="order-temp-chevron-style nds-grid ">
+        <div class="nds-col  nds-size_4-of-12 nds-medium-size_4-of-12 nds-large-size_4-of-12 order-detail-border-chevron">
+            <div class="nds-col chevron-header-padding nds-grid nds-medium-size_12-of-12 ">
+                <span class="nds-size_11-of-12 ">
+                    <span if:false={showInput} class="cheveronHeadingOrderName-uifn  o-text-overflow-uifn">{myOrderName}</span>
+                    <span if:false={showInput} class="order-neg-l-m-uifn-uifn"><img src="/Partner/resource/VPS_Icons/icons/pencil.svg" class="chevron-edit-icon-uifn" onclick ={onPencilClick}></span>
+                    <span if:true={showInput} class="nds-size--10-of-12 chevron-text-box-p-m-uifn "><vlocity_cmt-input type="text" theme="nds" icon-name="utility:edit" onchange={updateOrderName} onblur={onBlurEvent} ></vlocity_cmt-input></span>
+                </span>
+                <span class="nds-size_1-of-12 ">
+                    <c-vps-t-f-flag-icon-l-w-c order-id={orderId}></c-vps-t-f-flag-icon-l-w-c>
+                </span>
+            </div>
+            <div class="nds-grid nds-medium-size_12-of-12 nds-medium-size_12-of-12 o-m-l-17">
+                <span class="textColorOrderHeadingTF o-margin-r-m">Product Selected:</span><span class="va-t-font">{myProductInfo}</span>
+            </div>
+        </div>
+        <div class="nds-col nds-size_8-of-12  nds-size_8-of-12 nds-medium-size_8-of-12 nds-large-size_8-of-12">
+
+            <div class="nds-steps step-style">
+                <div class="step step-complete">
+                    <label>TF Order Detail</label>
+                </div>
+                <div class="step step-active">
+                    <label>Contact</label>
+                </div>
+                <div class="step">
+                    <label>Summary</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Breadcrumbs end here-->
+    <div  class="nds-grid nds-grid_vertical o-screen-width">
+        <!--Accordion starts-->
+        <ul class="nds-accordion order-detail-border-all">
+            <li>
+                <section>
+                    <div if:true={callGetRequesterDetails}>
+                        <vlocity_cmt-datasource-apexremote theme="nds" classname="vpsTFContactLWCController" methodname="getRequesterDetails" inputmap={getRequesterInputMap} channel="myapexremote_getRequesterDetails" debug="false">
+                        </vlocity_cmt-datasource-apexremote>
+                    </div>
+                    <div class="nds-form-element__control nds-size_12-of-12 nds-medium-size_12-of-12 nds-large-size_12-of-12 commonPadding-4">
+                        <div class=" nds-size_12-of-12 nds-medium-size_12-of-12 nds-large-size_12-of-12">
+                            <span class="textColorOrderSideHeadingTF o-margin-r-m">Requester Contact:</span><span class="textColorOrderSideHeadingTF">{requesterContactDetails}</span>
+                        </div>
+                    </div>
+                </section>
+            </li>
+            <!--++++++++++++++++++++++++++Implementation Contact+++++++++++++++++++++++++++++++-->
+            <li class="nds-accordion__list-item">
+                <section class={sectionOneClasses}>
+                    <div class="nds-accordion__summary order-no-margin">
+                        <h3 class="nds-text-heading_small nds-accordion__summary-heading">
+                            <button aria-controls="accordion-details-contact" aria-expanded="false" class="nds-button nds-button_reset nds-accordion__summary-action order-no-outline" onclick={onSectionOneClick}>
+                                <span class="nds-accordian-title orderHeading order-p-l " title="Accordion summary">Implementation Contact:</span>
+                            </button>
+                        </h3>
+                        <span>
+                            <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small nds-shrink-none order-no-outline  o-margin-r-m " aria-haspopup="true" onclick={onSectionOneClick}>
+                                <svg class="nds-button__icon" aria-hidden="true">
+                                    <use if:false={sectionOneopen} xlink:href="/Partner/resource/newportdesignsystem/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                                    <use if:true={sectionOneopen} xlink:href="/Partner/resource/newportdesignsystem/assets/icons/utility-sprite/svg/symbols.svg#up"></use>
+                                </svg>
+                                <span class="nds-assistive-text">More Options</span>
+                            </button>
+                        </span>
+                    </div>
+                    <div aria-hidden="true" class="nds-accordion__content" id="accordion-details-c1">
+                        <!--Contact section starts-->
+                        <div class="nds-form-element__control commonPadding-2">
+
+                            <div class={parentClass}>
+                                <label class=" nds-size_6-of-12 nds-medium-size_6-of-12 nds-large-size_6-of-12 textColorOrderSideHeadingTF" for="pcontact-name-heading"><strong>Contact Name:</strong></label>
+                                <div if:true={callGetResults}>
+                                    <vlocity_cmt-datasource-apexremote theme="nds" classname="vpsTFContactLWCController" methodname="getResults" inputmap={getResultsInputMap} channel="myapexremote_getresults" debug="false">
+                                    </vlocity_cmt-datasource-apexremote>
+                                </div>
+                                <div class="slds-form-element">
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-combobox_container">
+                                            <div class={implementationtxtclassname} data-id="resultBox" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                                                <div class="slds-form-element__control">
+                                                    <lightning-input data-id="implementationContactName" class="custom-input" label={Label} name="searchText" onchange={searchField} value={implementationContactName} onblur={onBlurHandler} ></lightning-input>
+                                                </div>
+                                                <!-- Second part display result -->
+                                                <div id="listbox-id-0" class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
+                                                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                                        <template for:each={implementationsearchRecords} for:item="serecord">
+                                                            <li role="presentation" class="slds-listbox__item" key={serecord.Id}>
+                                                                <div data-origincon="implementation" data-id={serecord.Id} data-name={serecord.Name} data-email={serecord.Email} data-phone={serecord.Phone} onclick={setSelectedRecord} class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                                                    <span class="slds-media__body">
+                                                                        <span class="slds-listbox__option-text slds-listbox__option-text_entity">{serecord.Name}</span>
+                                                                    </span>
+                                                                </div>
+                                                            </li>
+                                                        </template>
+                                                    </ul>
+                                                </div>
+                                                <div if:true={implementationLoadingText}>
+                                                    Loading...
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="nds-grid m-top-od-medium-20">
+                                    <label class=" nds-size_6-of-12 nds-medium-size_6-of-12 nds-large-size_6-of-12 textColorOrderSideHeadingTF" for="pemail-heading">Email:</label>
+                                    <label class=" nds-size_6-of-12  nds-medium-size_6-of-12 nds-large-size_6-of-12 textColorOrderSideHeadingTF" for="pphone-heading">Phone:</label>
+                                </div>
+                                <div class="nds-grid">
+                                    <div class="slds-form-element__control nds-size_6-of-12 nds-medium-size_6-of-12 nds-large-size_6-of-12">
+                                        <lightning-input type="email" class="o-margin-r-m-20" data-id="implementationContactEmail" label={Label} name="searchText" value={implementationContactEmail} onblur={onBlurHandler} onchange={validateEmail}></lightning-input>
+                                    </div>
+                                    <div class="slds-form-element__control nds-size_6-of-12 nds-medium-size_6-of-12 nds-large-size_6-of-12">
+                                        <lightning-input type="tel" maxlength="14" minlength="14" message-when-bad-input="Please enter valid phone number" data-id="implementationContactPhone" label={Label} name="searchText" value={implementationContactPhone} onblur={onBlurHandler} onchange={onPhoneNumberChange}></lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Contact section ends-->
+                    </div>
+                </section>
+            </li>
+            <!--++++++++++++++++++++++++++Design Contact+++++++++++++++++++++++++++++++-->
+            <li class="nds-accordion__list-item">
+                <section class={sectionTwoClasses}>
+                    <div class="nds-accordion__summary order-no-margin">
+                        <h3 class="nds-text-heading_small nds-accordion__summary-heading">
+                            <button aria-controls="accordion-details-c3" aria-expanded="false" class="nds-button nds-button_reset nds-accordion__summary-action order-no-outline" onclick={onSectionTwoClick}>
+                                <span class="nds-accordian-title orderHeading order-p-l " title="Accordion summary">Design Contact:</span>
+                            </button>
+                        </h3>
+                        <span>
+                            <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small nds-shrink-none order-no-outline  o-margin-r-m " aria-haspopup="true" onclick={onSectionTwoClick}>
+                                <svg class="nds-button__icon" aria-hidden="true">
+                                    <use if:false={sectionTwoopen} xlink:href="/Partner/resource/newportdesignsystem/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                                    <use if:true={sectionTwoopen} xlink:href="/Partner/resource/newportdesignsystem/assets/icons/utility-sprite/svg/symbols.svg#up"></use>
+                                </svg>
+                                <span class="nds-assistive-text">More Options</span>
+                            </button>
+                        </span>
+                    </div>
+                    <div aria-hidden="true" class="nds-accordion__content" id="accordion-details-03">
+                        <!--Contact section starts-->
+                        <div class="nds-form-element__control commonPadding-2">
+
+                            <div class={parentClass}>
+                                <label class=" nds-size_6-of-12 nds-medium-size_6-of-12 nds-large-size_6-of-12 textColorOrderSideHeadingTF" for="pcontact-name-heading"><strong>Contact Name:</strong></label>
+                                <div if:true={callGetResults}>
+                                    <vlocity_cmt-datasource-apexremote theme="nds" classname="vpsTFContactLWCController" methodname="getResults" inputmap={getResultsInputMap} channel="myapexremote_getresults" debug="false">
+                                    </vlocity_cmt-datasource-apexremote>
+                                </div>
+                                <div class="slds-form-element">
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-combobox_container">
+                                            <div class={designtxtclassname} data-id="resultBox" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                                                <div class="slds-form-element__control">
+                                                    <lightning-input data-id="designContactName" label={Label} name="searchText" onchange={searchField} value={designContactName} onblur={onBlurHandler}></lightning-input>
+                                                </div>
+                                                <!-- Second part display result -->
+                                                <div id="listbox-id-1" class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
+                                                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                                        <template for:each={designsearchRecords} for:item="serecord">
+                                                            <li role="presentation" class="slds-listbox__item" key={serecord.Id}>
+                                                                <div data-origincon="design" data-id={serecord.Id} data-name={serecord.Name} data-email={serecord.Email} data-phone={serecord.Phone} onclick={setSelectedRecord} class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                                                    <span class="slds-media__body">
+                                                                        <span class="slds-listbox__option-text slds-listbox__option-text_entity">{serecord.Name}</span>
+                                                                    </span>
+                                                                </div>
+                                                            </li>
+                                                        </template>
+                                                    </ul>
+                                                </div>
+                                                <div if:true={designLoadingText}>
+                                                    Loading...
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="nds-grid m-top-od-medium-20">
+                                    <label class=" nds-size_6-of-12 nds-medium-size_6-of-12 nds-large-size_6-of-12  textColorOrderSideHeadingTF" for="pemail-heading">Email:</label>
+                                    <label class=" nds-size_6-of-12  nds-medium-size_6-of-12 nds-large-size_6-of-12 textColorOrderSideHeadingTF" for="pphone-heading">Phone:</label>
+                                </div>
+                                <div class="nds-grid">
+                                    <div class="slds-form-element__control nds-size_6-of-12 nds-medium-size_6-of-12 nds-large-size_6-of-12">
+                                        <lightning-input type="email" class="o-margin-r-m-20" data-id="designContactEmail" label={Label} name="searchText" value={designContactEmail} onblur={onBlurHandler} onchange={validateEmail}></lightning-input>
+                                    </div>
+                                    <div class="slds-form-element__control nds-size_6-of-12 nds-medium-size_6-of-12 nds-large-size_6-of-12">
+                                        <lightning-input type="tel" maxlength="14" minlength="14" message-when-bad-input="Please enter valid phone number" data-id="designContactPhone" label={Label} name="searchText" value={designContactPhone} onblur={onBlurHandler} onchange={onPhoneNumberChange}></lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Contact section ends-->
+                    </div>
+                </section>
+            </li>
+            <!--++++++++++++++++++++++++++Local Contact+++++++++++++++++++++++++++++++-->
+            <li class="nds-accordion__list-item">
+                <section class={sectionThreeClasses}>
+                    <div class="nds-accordion__summary order-no-margin">
+                        <h3 class="nds-text-heading_small nds-accordion__summary-heading">
+                            <button aria-controls="accordion-details-04" aria-expanded="false" class="nds-button nds-button_reset nds-accordion__summary-action order-no-outline" onclick={onSectionThreeClick}>
+                                <span class="nds-accordian-title orderHeading order-p-l " title="Accordion summary">End Customer (Local Contact):</span>
+                            </button>
+                        </h3>
+                        <span>
+                            <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small nds-shrink-none order-no-outline  o-margin-r-m " aria-haspopup="true" onclick={onSectionThreeClick}>
+                                <svg class="nds-button__icon" aria-hidden="true">
+                                    <use if:false={sectionThreeopen} xlink:href="/Partner/resource/newportdesignsystem/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                                    <use if:true={sectionThreeopen} xlink:href="/Partner/resource/newportdesignsystem/assets/icons/utility-sprite/svg/symbols.svg#up"></use>
+                                </svg>
+                                <span class="nds-assistive-text">More Options</span>
+                            </button>
+                        </span>
+                    </div>
+                    <div aria-hidden="true" class="nds-accordion__content" id="accordion-details-04">
+                        <!--Contact section starts-->
+                        <div class="nds-form-element__control commonPadding-2">
+
+                            <div class={parentClass}>
+                                <label class=" nds-size_6-of-12 nds-medium-size_6-of-12 nds-large-size_6-of-12 textColorOrderSideHeadingTF" for="pcontact-name-heading"><strong>Contact Name:</strong></label>
+                                <div if:true={callGetResults}>
+                                    <vlocity_cmt-datasource-apexremote theme="nds" classname="vpsTFContactLWCController" methodname="getResults" inputmap={getResultsInputMap} channel="myapexremote_getresults" debug="false">
+                                    </vlocity_cmt-datasource-apexremote>
+                                </div>
+                                <div class="slds-form-element">
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-combobox_container">
+                                            <div class={localtxtclassname} data-id="resultBox" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                                                <div class="slds-form-element__control">
+                                                    <lightning-input data-id="localContactName" label={Label} name="searchText" onchange={searchField} value={localContactName} onblur={onBlurHandler}></lightning-input>
+                                                </div>
+                                                <!-- Second part display result -->
+                                                <div id="listbox-id-2" class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
+                                                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                                        <template for:each={localsearchRecords} for:item="serecord">
+                                                            <li role="presentation" class="slds-listbox__item" key={serecord.Id}>
+                                                                <div data-origincon="local" data-id={serecord.Id} data-name={serecord.Name} data-email={serecord.Email} data-phone={serecord.Phone} onclick={setSelectedRecord} class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                                                    <span class="slds-media__body">
+                                                                        <span class="slds-listbox__option-text slds-listbox__option-text_entity">{serecord.Name}</span>
+                                                                    </span>
+                                                                </div>
+                                                            </li>
+                                                        </template>
+                                                    </ul>
+                                                </div>
+                                                <div if:true={localLoadingText}>
+                                                    Loading...
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="nds-grid m-top-od-medium-20">
+                                    <label class=" nds-size_6-of-12 nds-medium-size_6-of-12 nds-large-size_6-of-12  textColorOrderSideHeadingTF" for="pemail-heading">Email:</label>
+                                    <label class=" nds-size_6-of-12  nds-medium-size_6-of-12 nds-large-size_6-of-12 textColorOrderSideHeadingTF" for="pphone-heading"><strong>Phone:</strong></label>
+                                </div>
+                                <div class="nds-grid">
+                                    <div class="slds-form-element__control nds-size_6-of-12 nds-medium-size_6-of-12 nds-large-size_6-of-12">
+                                        <lightning-input type="email" class="o-margin-r-m-20 localcontact" data-id="localContactEmail" label={Label} name="searchText" value={localContactEmail} onblur={onBlurHandler} onchange={validateEmail}></lightning-input>
+                                    </div>
+                                    <div class="slds-form-element__control nds-size_6-of-12 nds-medium-size_6-of-12 nds-large-size_6-of-12">
+                                        <lightning-input type="tel" maxlength="14" minlength="14" message-when-bad-input="Please enter valid phone number" data-id="localContactPhone" label={Label} name="searchText" value={localContactPhone} onblur={onBlurHandler} onchange={onPhoneNumberChange}></lightning-input>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--Contact section ends-->
+                    </div>
+                </section>
+            </li>
+
+            <!--++++++++++++++++++++++++++Alternative Contact+++++++++++++++++++++++++++++++-->
+            <li class="nds-accordion__list-item">
+                <section class={sectionFourClasses}>
+                    <div class="nds-accordion__summary order-no-margin">
+                        <h3 class="nds-text-heading_small nds-accordion__summary-heading">
+                            <button aria-controls="accordion-details-c4" aria-expanded="false" class="nds-button nds-button_reset nds-accordion__summary-action order-no-outline" onclick={onSectionFourClick}>
+                                <span class="nds-accordian-title orderHeading order-p-l " title="Accordion summary">Alternative Local Contact*:</span>
+                            </button>
+                        </h3>
+                        <span>
+                            <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small nds-shrink-none order-no-outline  o-margin-r-m " aria-haspopup="true" onclick={onSectionFourClick}>
+                                <svg class="nds-button__icon" aria-hidden="true">
+                                    <use if:false={sectionFouropen} xlink:href="/Partner/resource/newportdesignsystem/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                                    <use if:true={sectionFouropen} xlink:href="/Partner/resource/newportdesignsystem/assets/icons/utility-sprite/svg/symbols.svg#up"></use>
+                                </svg>
+                                <span class="nds-assistive-text">More Options</span>
+                            </button>
+                        </span>
+                    </div>
+                    <div aria-hidden="false" class="nds-accordion__content" id="accordion-details-02">
+                        <!--Contact section starts-->
+                        <div class="nds-form-element__control commonPadding-2">
+                            <div class={parentClass}>
+                                <label class=" nds-size_6-of-12 nds-medium-size_6-of-12 nds-large-size_6-of-12 textColorOrderSideHeadingTF" for="pcontact-name-heading"><strong>Contact Name:*</strong></label>
+                                <div if:true={callGetResults}>
+                                    <vlocity_cmt-datasource-apexremote theme="nds" classname="vpsTFContactLWCController" methodname="getResults" inputmap={getResultsInputMap} channel="myapexremote_getresults" debug="false">
+                                    </vlocity_cmt-datasource-apexremote>
+                                </div>
+                                <div class="slds-form-element">
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-combobox_container">
+                                            <div class={alternativetxtclassname} data-id="resultBox" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                                                <div class="slds-form-element__control">
+                                                    <lightning-input data-id="alternativeContactName" class="slds-parent-node" label={Label} name="searchText" onchange={searchField} value={alternativeContactName} onblur={onBlurHandler} ></lightning-input>
+                                                </div>
+                                                <!-- Second part display result -->
+                                                <div id="listbox-id-3" class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
+                                                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                                        <template for:each={alternativesearchRecords} for:item="serecord">
+                                                            <li role="presentation" class="slds-listbox__item" key={serecord.Id}>
+                                                                <div data-origincon="alternative" data-id={serecord.Id} data-name={serecord.Name} data-email={serecord.Email} data-phone={serecord.Phone} onclick={setSelectedRecord} class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                                                    <span class="slds-media__body">
+                                                                        <span class="slds-listbox__option-text slds-listbox__option-text_entity">{serecord.Name}</span>
+                                                                    </span>
+                                                                </div>
+                                                            </li>
+                                                        </template>
+                                                    </ul>
+                                                </div>
+                                                <div if:true={alternativeLoadingText}>
+                                                    Loading...
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="nds-grid m-top-od-medium-20">
+                                    <label class=" nds-size_6-of-12 nds-medium-size_6-of-12 nds-large-size_6-of-12 textColorOrderSideHeadingTF" for="pemail-heading">Email:*</label>
+                                    <label class=" nds-size_6-of-12  nds-medium-size_6-of-12 nds-large-size_6-of-12 textColorOrderSideHeadingTF" for="pphone-heading"><strong>Phone:*</strong></label>
+                                </div>
+                                <div class="slds-grid">
+                                    <div class="slds-form-element__control nds-size_6-of-12 nds-medium-size_6-of-12 nds-large-size_6-of-12">
+                                        <lightning-input type="email" class="o-margin-r-m-20"  data-id="alternativeContactEmail" label={Label} name="searchText"  value={alternativeContactEmail} onblur={onBlurHandler} onchange={validateEmail}></lightning-input>
+                                    </div>
+                                    <div class="slds-form-element__control nds-size_6-of-12 nds-medium-size_6-of-12 nds-large-size_6-of-12">
+                                        <lightning-input type="tel" pattern="[(]{1}[0-9]{3}[)]{1} [0-9]{3}-[0-9]{4}" maxlength="14" minlength="14" message-when-bad-input="Please enter valid phone number" data-id="alternativeContactPhone" label={Label} name="searchText"  value={alternativeContactPhone} onblur={onBlurHandler} onchange={onPhoneNumberChange}></lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Contact section ends-->
+                    </div>
+                </section>
+            </li>
+        </ul>
+    </div>
+    <div class="discardbuttonstyle">
+        <button class="nds-button nds-button_secondary discardbuttonstyle o-btn-ok" style="float: left" onclick={returnToOrderPage}>Discard</button>
+        <!-- <button class="nds-button nds-button_secondary backbuttonstyle o-btn-ok" style="float: right" onclick={backbutton}>Back</button> -->
+    </div>
+    <div if:true={tablevalueCSVcheck}> 
+                        <vlocity_cmt-datasource-apexremote theme="nds" classname="VPS_ValidateTolfreeNumbers" methodname="createInventoryCsvFile" inputmap={inputMap} channel="myapexremote_lookupcsvdata" debug="false">
+                        </vlocity_cmt-datasource-apexremote>
+    </div>
+</template>

@@ -1,0 +1,215 @@
+.o-screen-width {
+    transform: translateX(-100px);
+    width: 125%;
+}
+
+.order-detail-border-all {
+    border: 1px solid #999;
+    box-shadow: 1px 0px 3px grey;
+}
+
+.order-detail-border-chevron {
+    box-shadow: -1px 2px 2px 2px #ccc;
+}
+
+.order-no-padding {
+    padding: 0px;
+}
+
+.order-no-margin {
+    margin: 0px;
+}
+
+.order-no-outline {
+    outline: none !important;
+}
+
+.commonPadding {
+    padding: 2.5rem 0.625rem;
+}
+
+.commonPadding-2 {
+    padding: 2.5rem 1.25rem;
+}
+
+.commonPadding-4 {
+    padding: 0.625rem;
+}
+
+.order-temp-chevron-style {
+    transform: translate(-243px, -65px);
+    width: 149%;
+}
+
+.chevron-header-padding {
+    padding-top: 1.25rem;
+    padding-left: 17px;
+}
+
+.breadcrumb-s {
+    z-index: 1;
+    height: 80px;
+    box-shadow: 1px 2px 3px grey;
+    border: 2px solid lightgrey;
+}
+
+.o-margin-r-m {
+    margin-right: 0.625rem;
+}
+
+.va-t-font {
+    font-family: 'NeueHaasGroteskText';
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.4;
+    color: #000;
+}
+
+.step-style {
+    height: 80px;
+    width: 108%;
+}
+
+.o-m-l-17 {
+    margin-left: 17px;
+}
+
+.cheveronHeadingOrderName {
+    font-size: 24px;
+    font-family: "NeueHaasGroteskDisplayBold" !important;
+    color: #000000 !important;
+    line-height: 1.4;
+}
+
+.textColorOrderHeadingTF {
+    color: #000000;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'NeueHaasGroteskDisplayBold' !important;
+    line-height: 1.4;
+}
+
+.textColorOrderSideHeadingTF {
+    color: #000000;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'NeueHaasGroteskDisplayBold' !important;
+    line-height: 1.4;
+}
+
+.order-p-l {
+    padding-left: 0.625rem;
+}
+
+.o-p-r-5 {
+    padding-top: 5px;
+}
+
+.o-margin-r-m {
+    margin-right: 0.625rem;
+}
+
+.o-margin-r-m-20 {
+    margin-right: 1.25rem;
+}
+
+.discardbuttonstyle {
+    transform: translate3d(-50px, 1.25rem, 0px) !important;
+}
+
+.backbuttonstyle {
+    transform: translate3d(-50px, 1.25rem, 0px) !important;
+    margin-right: -52px;
+}
+
+.o-btn-ok {
+    color: #000;
+}
+
+.o-btn-ok:hover {
+    color: #fff;
+}
+
+.localcontact .slds-input:focus {
+    outline: none !important;
+    background-color: rgb(255, 255, 255) !important;
+    box-shadow: unset !important;
+    border: 1px solid #4b4b4b !important;
+}
+
+.localcontact div>input {
+    border: 1px solid #4b4b4b !important;
+    color: #000 !important;
+    border-radius: 0 !important;
+}
+
+.m-top-od-medium-20 {
+    margin-top: 20px;
+}
+
+.orderHeading {
+    font-size: 16px;
+    color: #fff;
+    font-family: 'NeueHaasGroteskDisplayBold';
+    line-height: 1.4;
+}
+
+.slds-parent-node input {
+    width: 100%;
+    box-shadow: none;
+    display: inline-block;
+    padding: 0;
+    line-height: 1.875rem;
+    font-family: NeueHaasGroteskText;
+    height: 35px;
+    border: 1px solid #4b4b4b;
+    padding: 10px;
+    background-color: #fff;
+    color: #000;
+    border-radius: 0;
+}
+
+.step:last-child::after,
+.step:not(:first-child)::before {
+    width: 56.568542px !important;
+    height: 56.568542px !important;
+}
+
+.nds-button_secondary {
+    margin-bottom: 5px;
+}
+
+.chevron-edit-icon-uifn {
+    fill: #000000 !important;
+    margin-right: 1%;
+    width: 16px !important;
+    height: 16px !important;
+    margin-top: -10px;
+    margin-left: 20px;
+}
+
+.cheveronHeadingOrderName-uifn {
+    font-size: 24px;
+    font-family: "NeueHaasGroteskDisplayBold" !important;
+    color: #000000 !important;
+    line-height: 1.4;
+}
+
+.o-text-overflow-uifn {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+.chevron-text-box-p-m-uifn {
+    margin-bottom: -0.5rem;
+    padding: -0.75rem;
+}
+
+
+/*srikanth added scroll bar for type-ahead*/
+
+ul.slds-listbox.slds-listbox_vertical {
+    max-height: 100px !important;
+    overflow: auto;
+}
